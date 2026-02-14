@@ -1,7 +1,7 @@
 # vi adi
 
-Vi ADI is a vim plugin that provides keybinding for creating Amature Data Interchange (ADI) files. It allows users to quickly generate ADI files with the necessary structure and content.
-
+Vi ADI is a vim plugin that provides keybinding for creating Amature Data Interchange (ADI) files. It allows users to quickly generate ADI files with the necessary structure and content. Licensed under the [MIT License](https://opensource.org/licenses/MIT).
+ 
 ## Features
 
 - Create ADI files with a simple keybinding
@@ -10,7 +10,7 @@ Vi ADI is a vim plugin that provides keybinding for creating Amature Data Interc
 
 ## Install
 
-### Vim 9.1+
+This plugin assumes you are on a Unix-like system. Specifically is uses system('date -u ...') to get the current date and time in UTC format.
 
 For VIM 9.1 and later, use the built-in package manager:
 
