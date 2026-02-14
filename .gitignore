@@ -1,0 +1,10 @@
+# Test artifacts
+test/vader.vim/
+
+# Vim swap files
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store

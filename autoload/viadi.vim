@@ -5,7 +5,7 @@ endfunction
 
 function! viadi#insert_at_cursor(bufnr, lines)
   let row = getcurpos()[1]
-  call appendbufline(a:bufnr, row - 1, a:lines)
+  call appendbufline(a:bufnr, row, a:lines)
   call cursor(row + len(a:lines), 0)
 endfunction
 
@@ -30,14 +30,14 @@ function! viadi#add_adi_header()
 endfunction
 
 function! viadi#time_stamp()
-  return system('date -u +%Y-%m-%dT%H:%M:%S')
+  return trim(system('date -u +%Y-%m-%dT%H:%M:%S'))
 endfunction
 
 function! viadi#date_time_now()
   let date = trim(system('date -u +%Y%m%d'))
   let time = trim(system('date -u +%H%M'))
-  return date, time
-
+  return [date, time]
+endfunction
 
 function! viadi#start_qso_entry()
   let call = input('Callsign: ')
@@ -70,7 +70,7 @@ function! viadi#start_qso_entry()
     return
   endif
   
-  let qso_date, time_on = viadi#date_time_now()
+  let [qso_date, time_on] = viadi#date_time_now()
 
   let line1 = join([
     \ viadi#adi_field('QSO_DATE', qso_date),

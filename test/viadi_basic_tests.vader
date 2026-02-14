@@ -1,0 +1,29 @@
+# Test basic helper functions
+
+Execute (Test viadi#adi_field formats correctly):
+  let result = viadi#adi_field('CALL', 'kf0agp')
+  AssertEqual '<CALL:6>KF0AGP', result
+
+Execute (Test viadi#adi_field handles empty string):
+  let result = viadi#adi_field('COMMENT', '')
+  AssertEqual '<COMMENT:0>', result
+
+Execute (Test viadi#adi_field handles numbers):
+  let result = viadi#adi_field('FREQ', '146.52')
+  AssertEqual '<FREQ:6>146.52', result
+
+Execute (Test viadi#date_time_now returns correct format):
+  let [date, time] = viadi#date_time_now()
+  " Date should be 8 characters (YYYYMMDD)
+  AssertEqual 8, len(date)
+  " Time should be 4 characters (HHMM)
+  AssertEqual 4, len(time)
+  " Date should be all digits
+  Assert date =~ '^\d\{8\}$'
+  " Time should be all digits
+  Assert time =~ '^\d\{4\}$'
+
+Execute (Test viadi#time_stamp returns ISO format):
+  let timestamp = viadi#time_stamp()
+  " Should match ISO 8601 format: YYYY-MM-DDTHH:MM:SS
+  Assert timestamp =~ '^\d\{4\}-\d\{2\}-\d\{2\}T\d\{2\}:\d\{2\}:\d\{2\}'

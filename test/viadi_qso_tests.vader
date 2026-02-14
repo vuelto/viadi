@@ -1,0 +1,76 @@
+# Test QSO entry creation with mocked inputs
+
+Before:
+  enew
+  
+After:
+  %delete _
+
+# Note: Testing interactive functions is tricky in vader
+# These tests verify the internal formatting logic
+
+Execute (Test QSO formatting - simulate the logic):
+  " Simulate what start_qso_entry does internally
+  let call = 'KF0AGP'
+  let band = '2m'
+  let mode = 'FM'
+  let rst_sent = '59'
+  let rst_rcvd = '59'
+  let comment = 'Test contact'
+  
+  let [qso_date, time_on] = viadi#date_time_now()
+  
+  let line1 = join([
+    \ viadi#adi_field('QSO_DATE', qso_date),
+    \ viadi#adi_field('TIME_ON', time_on),
+    \ viadi#adi_field('CALL', call),
+    \ ], ' ')
+
+  let line2 = join([
+    \ viadi#adi_field('BAND', band),
+    \ viadi#adi_field('MODE', mode),
+    \ viadi#adi_field('RST_SENT', rst_sent),
+    \ viadi#adi_field('RST_RCVD', rst_rcvd),
+    \ ], ' ')
+
+  let line3 = join([
+    \ viadi#adi_field('COMMENT', comment),
+    \ '<EOR>',
+    \ ], ' ')
+  
+  " Verify line1 format
+  Assert line1 =~ '<QSO_DATE:8>'
+  Assert line1 =~ '<TIME_ON:4>'
+  Assert line1 =~ '<CALL:6>KF0AGP'
+  
+  " Verify line2 format
+  Assert line2 =~ '<BAND:2>2M'
+  Assert line2 =~ '<MODE:2>FM'
+  Assert line2 =~ '<RST_SENT:2>59'
+  Assert line2 =~ '<RST_RCVD:2>59'
+  
+  " Verify line3 format
+  Assert line3 =~ '<COMMENT:12>TEST CONTACT'
+  Assert line3 =~ '<EOR>'
+
+Execute (Test insert_at_cursor appends lines correctly):
+  " Add some initial content
+  call setline(1, ['Line 1', 'Line 2', 'Line 3'])
+  
+  " Move to line 2
+  call cursor(2, 1)
+  
+  " Insert new lines
+  let bufnr = bufnr()
+  call viadi#insert_at_cursor(bufnr, ['New Line A', 'New Line B'])
+  
+  " Verify the lines were inserted after line 2
+  let all_lines = getline(1, '$')
+  AssertEqual 'Line 1', all_lines[0]
+  AssertEqual 'Line 2', all_lines[1]
+  AssertEqual 'New Line A', all_lines[2]
+  AssertEqual 'New Line B', all_lines[3]
+  AssertEqual 'Line 3', all_lines[4]
+  
+  " Cursor should have moved to after the inserted lines
+  AssertEqual 4, line('.')

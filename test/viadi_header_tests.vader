@@ -1,0 +1,43 @@
+# Test ADI header creation
+
+Before:
+  " Create a new buffer for each test
+  enew
+  
+After:
+  " Clean up after each test
+  %delete _
+
+Execute (Test add_adi_header creates proper header):
+  call viadi#add_adi_header()
+  
+  " Check that header lines were inserted
+  let lines = getline(1, '$')
+  
+  " Should have at least 5 lines
+  Assert len(lines) >= 5
+  
+  " Check for ADIF_VER
+  Assert lines[0] =~ '<ADIF_VER:5>3.1.6'
+  
+  " Check for PROGRAMID
+  Assert lines[1] =~ '<PROGRAMID:5>viadi'
+  
+  " Check for PROGRAMVERSION
+  Assert lines[2] =~ '<PROGRAMVERSION:5>0.1.0'
+  
+  " Check for CREATED_TIMESTAMP
+  Assert lines[3] =~ '<CREATED_TIMESTAMP:20>'
+  
+  " Check for EOH
+  Assert lines[4] =~ '<EOH>'
+
+Execute (Test add_adi_header cursor positioning):
+  " Start at line 1
+  call cursor(1, 1)
+  let initial_line = line('.')
+  
+  call viadi#add_adi_header()
+  
+  " Cursor should have moved down
+  Assert line('.') > initial_line
