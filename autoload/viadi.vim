@@ -12,8 +12,7 @@ function! viadi#adi_field(name, value)
   return printf('<%s:%d>%s', a:name, len(a:value), a:value)
 endfunction
 
-function! viadi#create_adi_file()
-  enew
+function! viadi#add_adi_header()
   let bufnr = nvim_get_current_buf()
 
   let header = [
@@ -22,8 +21,7 @@ function! viadi#create_adi_file()
     \ '',
     \ ]
 
-  call viadi#insert_lines(bufnr, header)
-  call cursor(len(header) + 1, 0)
+  call viadi#insert_at_cursor(bufnr, header)
 endfunction
 
 function! viadi#start_qso_entry()
@@ -83,6 +81,6 @@ function! viadi#start_qso_entry()
 endfunction
 
 function! viadi#setup()
-  nnoremap <leader>adi :call viadi#create_adi_file()<CR>
+  nnoremap <leader>adi :call viadi#add_adi_header()<CR>
   nnoremap <leader>adi:qso :call viadi#start_qso_entry()<CR>
 endfunction
