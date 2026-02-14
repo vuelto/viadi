@@ -1,11 +1,11 @@
 # vi adi
 
-Vi ADI is a vim plugin that provides keybinding for creating Amature Data Interchange (ADI) files. It allows users to quickly generate ADI files with the necessary structure and content. Licensed under the [MIT License](https://opensource.org/licenses/MIT).
+Vi ADI is a vim plugin that provides keybinding for creating Amature Data Interchange (ADI) files. It allows users to quickly generate ADIF files with the necessary structure and content. Licensed under the [MIT License](https://opensource.org/licenses/MIT).
  
 ## Features
 
-- Create ADI files with a simple keybinding
-- Automatically generate the ADI header
+- Create ADIF files with a simple keybinding
+- Automatically generate the ADIF header
 - Prompt for information when creating QSO entries
 
 ## Install
