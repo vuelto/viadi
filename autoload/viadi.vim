@@ -10,7 +10,8 @@ function! viadi#insert_at_cursor(bufnr, lines)
 endfunction
 
 function! viadi#adi_field(name, value)
-  return printf('<%s:%d>%s', a:name, len(a:value), a:value)
+  let uppercase_value = toupper(a:value)
+  return printf('<%s:%d>%s', a:name, len(uppercase_value), uppercase_value)
 endfunction
 
 function! viadi#add_adi_header()
