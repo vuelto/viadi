@@ -83,5 +83,5 @@ endfunction
 
 function! viadi#setup()
   nnoremap <leader>adi :call viadi#add_adi_header()<CR>
-  nnoremap <leader>adi:qso :call viadi#start_qso_entry()<CR>
+  nnoremap <leader>qso :call viadi#start_qso_entry()<CR>
 endfunction
