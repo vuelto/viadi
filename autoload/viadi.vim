@@ -55,9 +55,9 @@ function! viadi#start_qso_entry()
   if comment == ''
     return
   endif
-
-  let qso_date = strftime('%Y%m%d', systime())
-  let time_on = strftime('%H%M', systime())
+  
+  let qso_date = trim(system('date -u +%Y%m%d'))
+  let time_on = trim(system('date -u +%H%M'))
 
   let line1 = join([
     \ viadi#adi_field('QSO_DATE', qso_date),
